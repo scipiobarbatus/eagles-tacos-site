@@ -1,0 +1,28 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "eagles-tacos",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-07-29",
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./public",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "kv_namespaces": [
+    {
+      "binding": "EAGLES_LOCATION_KV",
+      "id": "e3bc5a69507f4532a7e5602697b62063"
+    }
+  ],
+  "routes": [
+    {
+      "pattern": "eaglestacos.com",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.eaglestacos.com",
+      "custom_domain": true
+    }
+  ]
+}
