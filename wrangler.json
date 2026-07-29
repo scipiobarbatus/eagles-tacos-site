@@ -15,6 +15,15 @@
       "id": "e3bc5a69507f4532a7e5602697b62063"
     }
   ],
+  "send_email": [
+    {
+      "name": "EAGLES_INQUIRY_EMAIL",
+      "destination_address": "theeaglestacos@gmail.com"
+    }
+  ],
+  "vars": {
+    "EAGLES_INQUIRY_TO": "theeaglestacos@gmail.com"
+  },
   "routes": [
     {
       "pattern": "eaglestacos.com",

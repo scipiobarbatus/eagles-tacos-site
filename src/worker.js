@@ -3,6 +3,7 @@ const INQUIRY_INDEX_KEY = "eagles-tacos:recent-inquiries";
 const PHONE_NUMBER = "+13234044000";
 const PHONE_DISPLAY = "(323) 404-4000";
 const INQUIRY_EMAIL_FROM = "inquiries@eaglestacos.com";
+const INQUIRY_EMAIL_TO = "theeaglestacos@gmail.com";
 
 const DEFAULT_LOCATION = {
   label: "Eagles Tacos",
@@ -231,7 +232,9 @@ function hasEmailBinding(env) {
 }
 
 function getInquiryEmailTo(env) {
-  return typeof env.EAGLES_INQUIRY_TO === "string" ? env.EAGLES_INQUIRY_TO : "";
+  return typeof env.EAGLES_INQUIRY_TO === "string" && env.EAGLES_INQUIRY_TO.trim()
+    ? env.EAGLES_INQUIRY_TO.trim()
+    : INQUIRY_EMAIL_TO;
 }
 
 function smsHrefForInquiry(inquiry) {
