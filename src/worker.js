@@ -110,7 +110,7 @@ async function handleInquiryApi(request, env) {
   }
 
   const inquiry = normalizeInquiry(payload);
-  const fallbackHref = smsHrefForInquiry(inquiry);
+  const fallbackHref = mailtoHrefForInquiry(inquiry);
 
   if (!inquiry.name || !inquiry.email || !inquiry.eventType) {
     return jsonResponse(
@@ -125,7 +125,7 @@ async function handleInquiryApi(request, env) {
   if (!hasEmailBinding(env) || !inquiryEmailTo) {
     return jsonResponse({
       ok: false,
-      error: `Inquiry saved. To notify the truck immediately, text ${PHONE_DISPLAY}.`,
+      error: "Inquiry saved. Email delivery is not ready yet; open the prefilled email draft to send it manually.",
       fallbackHref,
     });
   }
@@ -144,7 +144,7 @@ async function handleInquiryApi(request, env) {
     return jsonResponse(
       {
         ok: false,
-        error: `Inquiry saved. Email delivery is not ready yet; text ${PHONE_DISPLAY}.`,
+        error: "Inquiry saved. Email delivery is not ready yet; open the prefilled email draft to send it manually.",
         fallbackHref,
       },
       { status: 502 },
@@ -261,9 +261,12 @@ function getInquiryEmailTo(env) {
     : INQUIRY_EMAIL_TO;
 }
 
-function smsHrefForInquiry(inquiry) {
+function mailtoHrefForInquiry(inquiry) {
+  const subject = `Eagles Tacos ${inquiry.eventType || "event"} inquiry`;
   const body = [
-    "Hi Eagles Tacos, I'm interested in booking the truck.",
+    "Hi Eagles Tacos,",
+    "",
+    "I'm interested in booking the truck.",
     "",
     `Name: ${inquiry.name}`,
     `Email: ${inquiry.email}`,
@@ -271,13 +274,14 @@ function smsHrefForInquiry(inquiry) {
     `Event type: ${inquiry.eventType}`,
     `Date: ${inquiry.date}`,
     `Time: ${inquiry.time}`,
-    `Guests: ${inquiry.guests}`,
-    `Location: ${inquiry.location}`,
+    `Guest count: ${inquiry.guests}`,
+    `Event location: ${inquiry.location}`,
     "",
-    `Notes: ${inquiry.notes || "N/A"}`,
+    "Notes:",
+    inquiry.notes || "N/A",
   ].join("\n");
 
-  return `sms:${PHONE_NUMBER}?body=${encodeURIComponent(body)}`;
+  return `mailto:${INQUIRY_EMAIL_TO}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
 function inquiryEmailSubject(inquiry) {

@@ -21,7 +21,8 @@ Cloudflare deploys `public/` as static assets and runs `src/worker.js` for `/api
 
 The contact form sends from `inquiries@eaglestacos.com` to `theeaglestacos@gmail.com`.
 Cloudflare Email Service requires the sender domain and destination address to be verified. Without
-`EAGLES_INQUIRY_EMAIL`, the contact form returns a prefilled SMS fallback to the truck number.
+`EAGLES_INQUIRY_EMAIL`, the contact form returns a prefilled email draft to
+`theeaglestacos@gmail.com`.
 The binding should include `allowed_sender_addresses: ["inquiries@eaglestacos.com"]`, matching the
 SmoshTown setup.
 
