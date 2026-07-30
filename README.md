@@ -21,3 +21,8 @@ Cloudflare deploys `public/` as static assets and runs `src/worker.js` for `/api
 The contact form sends from `inquiries@eaglestacos.com` to `theeaglestacos@gmail.com`.
 Cloudflare Email Service requires the sender domain and destination address to be verified. Without
 `EAGLES_INQUIRY_EMAIL`, the contact form returns a prefilled SMS fallback to the truck number.
+
+The Worker also has an inbound `email()` handler for Cloudflare Email Routing. To forward mail
+sent to an Eagles Tacos address, add an Email Routing rule in Cloudflare that sends the address
+or catch-all pattern to the `eagles-tacos` Worker. The Worker forwards routed mail to
+`theeaglestacos@gmail.com`, which must be a verified destination address.

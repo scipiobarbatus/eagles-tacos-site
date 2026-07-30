@@ -31,7 +31,31 @@ export default {
 
     return env.ASSETS.fetch(request);
   },
+
+  async email(message, env) {
+    await handleIncomingEmail(message, env);
+  },
 };
+
+async function handleIncomingEmail(message, env) {
+  const inquiryEmailTo = getInquiryEmailTo(env);
+  if (!inquiryEmailTo) {
+    message.setReject("Eagles Tacos forwarding destination is not configured.");
+    return;
+  }
+
+  const headers = new Headers();
+  headers.set("X-Eagles-Tacos-Forwarded-By", "eagles-tacos-worker");
+  headers.set("X-Eagles-Tacos-Original-To", message.to || "");
+  headers.set("X-Eagles-Tacos-Forwarded-At", new Date().toISOString());
+
+  try {
+    await message.forward(inquiryEmailTo, headers);
+  } catch (error) {
+    console.error("Incoming email forward failed", error);
+    message.setReject("Eagles Tacos email forwarding is not ready yet.");
+  }
+}
 
 async function handleLocationApi(request, env) {
   if (request.method === "GET") {
