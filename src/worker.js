@@ -8,7 +8,7 @@ const INQUIRY_EMAIL_TO = "theeaglestacos@gmail.com";
 const DEFAULT_LOCATION = {
   label: "Eagles Tacos",
   address: "1930 Colorado Blvd, Los Angeles, CA 90041",
-  hours: "Check today's hours before you roll through.",
+  hours: "Monday–Saturday, 10 AM–9 PM",
   status: "Serving Eagle Rock",
   note: "Call ahead for fast pick-up or book the truck for private events.",
   mapsUrl:
